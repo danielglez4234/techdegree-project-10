@@ -78,7 +78,7 @@ class CourseDetail extends Component  {
             <div className="course--header">
               <h4 className="course--label course--label--datials">Course</h4>
               <h3 className="course--title">{title}</h3>
-              <p className="userName">By {firstName} {lastName}</p>
+              <p className="capitalize">By {firstName} {lastName}</p>
             </div>
             <div className="course--description">
               <ReactMarkdown source={description} />

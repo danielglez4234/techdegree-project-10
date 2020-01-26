@@ -85,7 +85,7 @@ render(){
               value={title}
               placeholder="Course title..." />
             </div>
-            <p className="userName">By {firstName} {lastName}</p>
+            <p className="capitalize">By {firstName} {lastName}</p>
           </div>
           <div className="course--description">
             <div><textarea

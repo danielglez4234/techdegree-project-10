@@ -14,7 +14,7 @@ class Header extends React.PureComponent {
           will be displayed, if not the signup and signIn buttons will be displayed */}
           {authenticatedUser ?
             <React.Fragment>
-              <span className="userName">Welcome, {authenticatedUser.firstName} {authenticatedUser.lastName}!</span>
+              <span className="capitalize">Welcome, {authenticatedUser.firstName} {authenticatedUser.lastName}!</span>
               <Link className="signout" to="/signout">Sign Out</Link>
             </React.Fragment>
           :
