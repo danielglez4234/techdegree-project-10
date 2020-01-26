@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import Form from './Form';
 
-// import UnhandledError from './UnhandledError';
-
 class CreateCourse extends PureComponent  {
   state = {
     course: {
@@ -24,10 +22,12 @@ render(){
     estimatedTime,
     materialsNeeded,
   } = this.state.course;
+
   return (
     <div className="bounds course--detail">
       <h1>Create Course</h1>
       <div>
+       {/*the inputs are shown using the FORM component which displays both errors and submit and cancel buttons*/}
         <Form
         cancel={this.cancel}
         errors={errors}
@@ -48,7 +48,7 @@ render(){
               value={title}
               placeholder="Course title..." />
             </div>
-            <p>By {authUser.firstName} {authUser.lastName}</p>
+            <p className="userName">By {authUser.firstName} {authUser.lastName}</p>
           </div>
           <div className="course--description">
             <div><textarea
@@ -95,6 +95,8 @@ render(){
     </div>
   );
 }
+
+  // add the values that are written in the inputs to the course state
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -106,28 +108,31 @@ render(){
     })
   };
 
+  // manages the creation of courses
   submit = () => {
     const { context } = this.props;
     const authenticatedUser = context.authenticatedUser;
     const emailAddress = authenticatedUser.emailAddress;
     const password = context.password;
 
+    // create the course by calling the function found in "Data.js" by sending the user, the password and the course data
     context.data.createCourse(emailAddress, password, this.state.course)
-    .then( errors => {
+    .then( errors => { // if there is any error it is saved in the errors state and then displayed by the form
       if (errors.length) {
         this.setState({ errors });
       } else {
          this.props.history.push('/courses');
       }
     })
-    .catch( err => {
+    .catch( err => { // handle rejected promises
       console.log(err);
-      this.props.history.push('/error');
+      this.props.history.push('/error'); // push to history stack
     })
   }
 
+  // sends you to the home page when you press the cancel button
   cancel = () => {
-    this.props.history.push('/');
+    this.props.history.push('/courses');
   }
 }
 export default CreateCourse;

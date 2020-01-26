@@ -13,15 +13,17 @@ class CourseDetail extends Component  {
   }
 
   componentDidMount() {
+    // get the course data with the id sent from "/courses"
     fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
     .then(response => response.json())
     .then(response => {
       this.setState({
-        course: response.courses,
-        user: response.courses.Owner
+        course: response.courses, // course data
+        user: response.courses.Owner // Owner of the course data
       });
     })
     .catch( () => {
+      // if the requested id is not in the database the notFound page will be displayed
       const { history } = this.props;
       history.push('/notFound');
     });
@@ -41,6 +43,7 @@ class CourseDetail extends Component  {
 
     const { firstName, lastName } = this.state.user;
 
+    // if estimatedTime or materialsNeeded are empty the word "None" will be shown in the inputs
     if (estimatedTime === null || estimatedTime === '') {
       estimatedTime = 'None';
     }
@@ -55,10 +58,13 @@ class CourseDetail extends Component  {
             <div className="grid-100">
             <span>
               {
+              // if there is no authenticated user the update and delete buttons will not be displayed
               (authenticatedUser === null) ? '' :
+                // Only the user who is the author of the deployed course can see the uppdate and delete buttons
                 (userId === authenticatedUser.id) ?
                 <div className="div_update_delete">
                   <Link className="button button--update" to={updateUrl} >Update Course</Link>
+                  {/* delete the course when clicked */}
                   <button className="button button--delete" onClick={this.handleDelete}>Delete Course</button>
                 </div>
               : ''
@@ -72,7 +78,7 @@ class CourseDetail extends Component  {
             <div className="course--header">
               <h4 className="course--label course--label--datials">Course</h4>
               <h3 className="course--title">{title}</h3>
-              <p>By {firstName} {lastName}</p>
+              <p className="userName">By {firstName} {lastName}</p>
             </div>
             <div className="course--description">
               <ReactMarkdown source={description} />
@@ -99,23 +105,24 @@ class CourseDetail extends Component  {
     );
   }
 
+
   handleDelete = () => {
     const { context } = this.props;
     const authenticatedUser = context.authenticatedUser;
     const emailAddress = authenticatedUser.emailAddress;
     const password = context.password;
-
+    // delete the course by calling the function found in "Data.js" by sending the user, the password and the id of the course
     context.data.deleteCourse(emailAddress, password, this.state.course.id)
-    .then( errors => {
+    .then( errors => { // if there is any error the "/error" page will be displayed
       if (errors.length) {
          this.props.history.push('/error');
       } else {
          this.props.history.push('/courses');
       }
     })
-    .catch( err => {
+    .catch( err => { // handle rejected promises
       console.log(err);
-      this.props.history.push('/error');
+      this.props.history.push('/error'); // push to history stack
     })
   }
 }

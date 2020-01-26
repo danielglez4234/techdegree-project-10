@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
 import {
   BrowserRouter,
   Route,
@@ -40,9 +39,12 @@ class App extends Component {
   render(){
     return (
       <BrowserRouter>{/*managing routes*/}
+
       <HeaderWithContext />
+
         <Switch>
           <Route exact path="/" render={() => <Redirect to='/courses' /> } />
+          
           <Route exact path="/courses" component={Courses} />
           <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
           <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
@@ -58,7 +60,7 @@ class App extends Component {
 
           <Route component={NotFound} /> {/*only appears when no route matches*/}
         </Switch>
-        {/* console.log(this.state.courses) */}
+
       </BrowserRouter>
 
     );

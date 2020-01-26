@@ -22,16 +22,18 @@ class UpdateCourse extends PureComponent  {
   }
 
   componentDidMount() {
+    // get the course data with the id sent from "/courses"
     fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
     .then(response => response.json())
     .then(response => {
       this.setState({
-        course: response.courses,
-        user: response.courses.Owner,
+        course: response.courses, // course data
+        user: response.courses.Owner, // Owner of the course data
         loading: false
       });
     })
     .catch( () => {
+      // if the requested id is not in the database the notFound page will be displayed
       const { history } = this.props;
       history.push('/notFound');
     });
@@ -54,12 +56,15 @@ render(){
   return (
   <div>
     {
+    // this option is set here to avoid flickering when loading the page
     (this.state.loading) ? '' :
+    // if the user id does not match the id of the course owner, it will be redirected to the Forbidden component
     (userId === authenticatedUser.id)
       ?
     <div className="bounds course--detail">
       <h1>Update Course</h1>
       <div>
+        {/*the inputs are shown using the FORM component which displays both errors and submit and cancel buttons*/}
         <Form
         cancel={this.cancel}
         errors={errors}
@@ -80,7 +85,7 @@ render(){
               value={title}
               placeholder="Course title..." />
             </div>
-            <p>By {firstName} {lastName}</p>
+            <p className="userName">By {firstName} {lastName}</p>
           </div>
           <div className="course--description">
             <div><textarea
@@ -132,6 +137,7 @@ render(){
   );
 }
 
+  // add the values that are written in the inputs to the course state
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -143,26 +149,28 @@ render(){
     })
   };
 
+  // handle the course update
   submit = () => {
     const { context } = this.props;
     const authenticatedUser = context.authenticatedUser;
     const emailAddress = authenticatedUser.emailAddress;
     const password = context.password;
-
+    // update the course by calling the function found in "Data.js" by sending the user, the password, the course data and the id of the course
     context.data.updateCourse(emailAddress, password, this.state.course, this.state.course.id)
-    .then( errors => {
+    .then( errors => { // if there is any error it is saved in the errors state and then displayed by the form
       if (errors.length) {
         this.setState({ errors });
-      } else {
+      } else { // if there are no errors, it sends you to the CourseDetail of that course
          this.props.history.push(`/courses/${this.state.course.id}`);
       }
     })
-    .catch( err => {
+    .catch( err => { // handle rejected promises
       console.log(err);
-      this.props.history.push('/error');
+      this.props.history.push('/error'); // push to history stack
     })
   }
 
+  // sends you to the CourseDetail page when you press the cancel button
   cancel = () => {
     this.props.history.push(`/courses/${this.state.course.id}`);
   }

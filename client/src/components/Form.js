@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default (props) => {
+  // save the sent functions in the variables
   const {
     cancel,
     errors,
@@ -9,11 +10,13 @@ export default (props) => {
     elements,
   } = props;
 
+  // when the submit button is pressed the submit() function is executed
   function handleSubmit(event) {
     event.preventDefault();
     submit();
   }
 
+  // when the cancel button is pressed the cancel() function is executed
   function handleCancel(event) {
     event.preventDefault();
     cancel();
@@ -21,8 +24,9 @@ export default (props) => {
 
   return (
     <div>
-      <ErrorsDisplay errors={errors} />
+      <ErrorsDisplay errors={errors} /> {/*the errors will be shown here*/}
       <form onSubmit={handleSubmit}>
+        {/*elements() is the function that retains the inputs sent by the other components*/}
         {elements()}
         <div className="pad-bottom">
           <button className="button" type="submit">{submitButtonText}</button>
@@ -34,9 +38,9 @@ export default (props) => {
 }
 
 function ErrorsDisplay({ errors }) {
-  let errorsDisplay = null;
+  let errorsDisplay = null; // if there are no errors nothing is shown
 
-  if (errors.length) {
+  if (errors.length) { // will display the errors that were received
     errorsDisplay = (
       <div className="validation-errors-container">
         <h2 className="validation--errors--label">Validation errors</h2>

@@ -26,6 +26,7 @@ export default class UserSignUp extends Component {
       <div className="bounds">
         <div className="grid-33 centered signin signin-animation">
           <h1>Sign Up</h1>
+          {/*the inputs are shown using the FORM component which displays both errors and submit and cancel buttons*/}
           <Form
             cancel={this.cancel}
             errors={errors}
@@ -107,15 +108,19 @@ export default class UserSignUp extends Component {
       password,
     };
 
+    // if the password and confirmPassword variables are different, it will send an error, otherwise it will continue
     if ( password !== confirmPassword) {
       this.setState({ errors: ['The passwords don\'t match, please try again'] });
 
     } else {
+      // signUp the user by calling the function found in "Data.js" by sending the user data
+      // and then call the signIn function found in the context to log the user
       context.data.createUser(user)
-      .then( errors => {
+      .then( errors => { // if there is any error it is saved in the errors state and then displayed by the form
         if (errors.length) {
           this.setState({ errors });
         } else {
+          // signIn the user by sending the emailAddress and the password
           context.actions.signIn(emailAddress, password)
             .then(() => {
               this.props.history.push('/courses');
@@ -129,7 +134,8 @@ export default class UserSignUp extends Component {
     }
   }
 
+  // sends you to the home page when you press the cancel button
   cancel = () => {
-    this.props.history.push('/');
+    this.props.history.push('/courses');
   }
 }

@@ -24,8 +24,7 @@ export class Provider extends Component {
       data: this.data,
       actions: { // Add the 'actions' property and object
         signIn: this.signIn,
-        signOut: this.signOut,
-        // createCourse: this.createCourse
+        signOut: this.signOut
       }
     };
     return (
@@ -35,7 +34,8 @@ export class Provider extends Component {
     );
   }
 
-
+  // signIn: Verify the username and password by calling the getUser function
+  // and change the authenticatedUser and password states with the user data
   signIn = async (username, password) => {
     const userPass = password;
     const user = await this.data.getUser(username, password);
@@ -53,6 +53,7 @@ export class Provider extends Component {
     return user;
   }
 
+  // signOut: resets the authenticatedUser and password states
   signOut = () => {
     this.setState(() => {
       return {

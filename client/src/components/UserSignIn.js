@@ -20,6 +20,7 @@ export default class UserSignIn extends Component {
       <div className="bounds">
         <div className="grid-33 centered signin signin-animation">
           <h1>Sign In</h1>
+          {/*the inputs are shown using the FORM component which displays both errors and submit and cancel buttons*/}
           <Form
             cancel={this.cancel}
             errors={errors}
@@ -50,23 +51,29 @@ export default class UserSignIn extends Component {
     );
   }
 
+  // add the values that are written in the inputs to the states
   change = (event) => {
-    const emailAddress = event.target.name;
+    const name = event.target.name;
     const value = event.target.value;
 
     this.setState(() => {
       return {
-        [emailAddress]: value
+        [name]: value
       };
     });
   }
 
+  // handle the user signIn
   submit = () => {
     const { context } = this.props;
+    // Save in the variable the location placed in the PrivateRoute component in this case
+    // the last one in which the user was, if there is no location the user will be sent to '/courses'
     const { from } = this.props.location.state || { from: { pathname: '/courses' } };
     const { emailAddress, password } = this.state;
+
+    // signIn the user by calling the function found in "Data.js" by sending the emailAddress and the password
     context.actions.signIn(emailAddress, password)
-    .then( user => {
+    .then( user => { // if there is any error it is saved in the error state and then displayed by the form
       if (user === null) {
         this.setState(() => {
           return { errors: [ 'The username or password you entered is incorrect, please try again.' ] };
@@ -76,13 +83,14 @@ export default class UserSignIn extends Component {
          console.log(`SUCCESS! ${emailAddress} is now signed in!`);
       }
     })
-    .catch( err => {
+    .catch( err => { // handle rejected promises
       console.log(err);
-      this.props.history.push('/error');
+      this.props.history.push('/error'); // push to history stack
     })
   }
 
+  // sends you to the home page when you press the cancel button
   cancel = () => {
-    this.props.history.push('/');
+    this.props.history.push('/courses');
   }
 }
