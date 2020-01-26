@@ -886,3 +886,6 @@ input:focus {
   color: #181c20;
   text-shadow: 2px 2px #e92065;
 }
+.capitalize{
+  text-transform: capitalize;
+}
