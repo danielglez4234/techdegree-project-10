@@ -6,7 +6,8 @@ In addition, the project will require users to create an account and sign in to 
 
 - ## To run the project </br>
 
-- Once downloaded you will need to open two *terminals*
-- In one of the *terminals* go to the **/api** folder and run `npm start`.
-- In the second *terminal* go to the **/client** folder and run `npm start`.
-- and that's it. The project will open in the browser.
+- Once downloaded you will need to open **two terminals**.
+- In one of the terminals go to the **/api** folder and run `npm install` to install the dependencies.
+- Second, seed the **SQLite database**, run `npm run seed`, when finished run `npm start`.
+- In the **_second terminal_** go to the **/client** folder and run `npm install` to install the dependencies, when finished run `npm start`.
+- and that's it, the project will open in the browser.
