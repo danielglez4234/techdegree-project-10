@@ -5,4 +5,8 @@ The full stack application will provide a way for users to administer a school d
 In addition, the project will require users to create an account and sign in to make changes to the database.
 
 - ## To run the project </br>
-#### if you enter the **/client** and **/api** folders you will find the respective instructions to make this project work.
+
+- Once downloaded you will need to open two *terminals*
+- In one of the *terminals* go to the **/api** folder and run `npm start`.
+- In the second *terminal* go to the **/client** folder and run `npm start`.
+- and that's it. The project will open in the browser.
